@@ -10,6 +10,7 @@ public class TriviaGame {
     private Question[] questions;
     private Scanner kb;
     private Random rd;
+    private int questionCount;
 
     public static void main(String[] args) throws IOException {
         TriviaGame game = new TriviaGame();
@@ -20,8 +21,8 @@ public class TriviaGame {
         kb = new Scanner(System.in);
         rd = new Random();
         questions = new Question[15];
-
-        
+        questionCount = 0;
+        loadQuestionsFromFile("TriviaQuestions.txt");
     }
 
     
@@ -38,6 +39,7 @@ public class TriviaGame {
                 
                 index++;
                 }
+            questionCount = index;
             fileScanner.close();
     }
 
@@ -178,7 +180,11 @@ public class TriviaGame {
                 }
             }
        }
-       int idx = rd.nextInt(questions.length);
+       if (questionCount == 0) {
+            System.out.println("No questions are available.");
+            return;
+       }
+       int idx = rd.nextInt(questionCount);
        Question q = questions[idx];
        System.out.println("Question: " + q.getText());
        System.out.println("Your answer: ");
